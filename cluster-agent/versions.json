@@ -1,5 +1,5 @@
 {
 	"cluster.appdynamics.com/v1alpha1": "21.3.0",
-	"cluster.appdynamics.com/v21-5-0": "21.6.0",
-	"cluster.appdynamics.com/v21-7-0": "21.7.0"
+	"cluster.appdynamics.com/v21_5_0": "21.6.0",
+	"cluster.appdynamics.com/v21_7_0": "21.7.0"
 }
