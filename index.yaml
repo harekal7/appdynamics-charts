@@ -3,10 +3,10 @@ entries:
   appdynamics-k8s-monitoring:
   - apiVersion: v2
     appVersion: 21.10.0
-    created: "2021-10-28T16:05:29.724029+05:30"
+    created: "2021-10-28T16:06:06.594953+05:30"
     description: Sophisticated helm chart to deploy clustermon as a deployment, otel
       collector, infra agent, containermon and servermon as a daemonset.
-    digest: 60f5572ae4d754cb8f85bcc5cfb9d3404350cf3fed2ea09f4c2e177790e44f6e
+    digest: 6822636539743a4f6cc74b05f452988416c64714907f453b3681d61f62db4b62
     home: https://appdynamics.com
     icon: https://raw.githubusercontent.com/CiscoDevNet/appdynamics-charts/master/logo.png
     keywords:
@@ -672,4 +672,4 @@ entries:
     urls:
     - https://ciscodevnet.github.io/appdynamics-charts/machine-agent-0.2.2.tgz
     version: 0.2.2
-generated: "2021-10-28T16:05:29.722882+05:30"
+generated: "2021-10-28T16:06:06.59345+05:30"
