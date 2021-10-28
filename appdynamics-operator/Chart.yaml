@@ -1,0 +1,22 @@
+apiVersion: v2
+name: appdynamics-operator
+
+description: A Helm chart for Appdynamics Operator
+home: https://appdynamics.com
+icon: https://raw.githubusercontent.com/CiscoDevNet/appdynamics-charts/master/logo.png
+
+version: 21.10.0
+
+appVersion: 21.10.0
+
+maintainers:
+  - name: AppDynamics
+    email: support@appdynamics.com
+
+keywords:
+  - appdynamics
+  - cluster
+  - kubernetes
+  - monitoring
+  - pod
+  - deployment

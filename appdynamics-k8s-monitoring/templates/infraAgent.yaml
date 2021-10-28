@@ -1,0 +1,40 @@
+{{ if .Values.install.defaultInfraCollectors -}}
+apiVersion: cluster.appdynamics.com/v1alpha1
+kind: InfraAgent
+metadata:
+  name: {{ printf "%s-%s" .Release.Name "appdynamics-infra-agent" | trunc 63 }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  {{ with .Values.inframonPod -}}
+  image: {{ .image }}
+  imagePullPolicy: {{ .imagePullPolicy }}
+  #  imageBaseUrl: {{ .imageBaseUrl }}
+  #  versionsUrl: {{ .versionsUrl }}
+  #  autoUpdate: {{ .autoUpdate | quote }}
+  resources:
+  {{- toYaml .resources | nindent 4 }}
+  labels:
+  {{- toYaml .labels | nindent 4 }}
+  annotations:
+  {{- toYaml .annotations | nindent 4 }}
+  nodeSelector:
+  {{- toYaml .nodeSelector | nindent 4 }}
+  imagePullSecrets:
+  {{- toYaml .imagePullSecrets | nindent 4 }}
+  affinity:
+  {{- toYaml .affinity | nindent 4 }}
+  tolerations: {{ .tolerations }}
+  securityContext:
+  {{- toYaml .securityContext | nindent 4 }}
+  {{- end }}
+
+  serviceAccountName: {{ .Values.infraAgentServiceAccount}}
+
+  {{ with .Values.infraAgentConfig -}}
+  logFilesMaxSizeMb: {{ .logFilesMaxSizeMb }}
+  logFilesNumBackups: {{ .logFilesNumBackups }}
+  printToStdout: {{ .printToStdout | quote }}
+  logLevel: {{ .logLevel }}
+  #TODO: Add whatever properties are finalized to be exposed by Infra Agent
+  {{- end }}
+{{- end }}

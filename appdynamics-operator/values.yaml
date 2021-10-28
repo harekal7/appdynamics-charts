@@ -1,0 +1,11 @@
+operatorServiceAccount: appdynamics-operator
+operatorPod:
+  image: dtr.corp.appdynamics.com/clustermon/appdynamics-operator-levitate:latest #Needs to be changed in prod
+  imagePullPolicy: Never
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi

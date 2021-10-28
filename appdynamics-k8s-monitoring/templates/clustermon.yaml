@@ -1,0 +1,72 @@
+{{ if .Values.install.clustermon -}}
+apiVersion: cluster.appdynamics.com/v1alpha1
+kind: Clustermon
+metadata:
+  name: {{ printf "%s-%s" .Release.Name "appdynamics-clustermon" | trunc 63 }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  {{ with .Values.clustermonPod -}}
+  image: {{ .image }}
+  imagePullPolicy: {{ .imagePullPolicy }}
+  #  imageBaseUrl: {{ .imageBaseUrl }}
+  #  versionsUrl: {{ .versionsUrl }}
+  #  autoUpdate: {{ .autoUpdate | quote }}
+  resources:
+  {{- toYaml .resources | nindent 4 }}
+  labels:
+  {{- toYaml .labels | nindent 4 }}
+  annotations:
+  {{- toYaml .annotations | nindent 4 }}
+  nodeSelector:
+  {{- toYaml .nodeSelector | nindent 4 }}
+  imagePullSecrets:
+  {{- toYaml .imagePullSecrets | nindent 4 }}
+  affinity:
+  {{- toYaml .affinity | nindent 4 }}
+  tolerations: {{ .tolerations }}
+  securityContext:
+  {{- toYaml .securityContext | nindent 4 }}
+  {{- end }}
+  serviceAccountName: {{ .Values.clustermonServiceAccount}}
+
+  {{ with .Values.clustermonConfig -}}
+  clusterName: {{ .clusterName }}
+  enabled: {{ .enabled | quote }}
+  logLevel: {{ .logLevel }}
+  logFilesMaxSizeMb: {{ .logFilesMaxSizeMb }}
+  logFilesNumBackups: {{ .logFilesNumBackups }}
+  printToStdout: {{ .printToStdout | quote }}
+  tickerInterval: {{ .tickerInterval }}
+  namespaceFilter:
+  {{- toYaml .namespaceFilter | nindent 4 }}
+  entityFilter:
+  {{- toYaml .entityFilter | nindent 4 }}
+  labelFilter:
+  {{- toYaml .labelFilter | nindent 4 }}
+
+  testSetupEnabled: {{ .testSetupEnabled | quote }}
+  optimisedPayloadInterval: {{ .optimisedPayloadInterval }}
+
+  events:
+    enabled: {{ .events.enabled | quote }}
+    severityToExclude:
+    {{- toYaml .events.severityToExclude | nindent 6 }}
+    reasonToExclude:
+    {{- toYaml .events.reasonToExclude | nindent 6 }}
+    severeGroupByReason:
+    {{- toYaml .events.severeGroupByReason | nindent 6 }}
+    rateLimit: {{ .events.rateLimit }}
+
+  ingressControllers:
+  {{- toYaml .ingressControllers | nindent 4 }}
+  {{- end }}
+
+  {{ with .Values.infraAgentConfig -}}
+  infraAgentConfig:
+    logFilesMaxSizeMb: {{ .logFilesMaxSizeMb }}
+    logFilesNumBackups: {{ .logFilesNumBackups }}
+    printToStdout: {{ .printToStdout | quote }}
+    logLevel: {{ .logLevel }}
+  {{- end }}
+
+{{ end -}}

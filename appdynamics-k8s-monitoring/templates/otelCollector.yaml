@@ -1,0 +1,55 @@
+apiVersion: cluster.appdynamics.com/v1alpha1
+kind: OTelCollector
+metadata:
+  name: {{ printf "%s-%s" .Release.Name "appdynamics-otel-collector" | trunc 63 }}
+spec:
+  {{ with .Values.otelCollectorPod -}}
+  image: {{ .otelCollectorImage }}
+  imagePullPolicy: {{ .imagePullPolicy }}
+  resources:
+  {{- toYaml .resources | nindent 4 }}
+  labels:
+  {{- toYaml .labels | nindent 4 }}
+  annotations:
+  {{- toYaml .annotations | nindent 4 }}
+  nodeSelector:
+  {{- toYaml .nodeSelector | nindent 4 }}
+  imagePullSecrets:
+  {{- toYaml .imagePullSecrets | nindent 4 }}
+  affinity:
+  {{- toYaml .affinity | nindent 4 }}
+  tolerations: {{ .tolerations }}
+  securityContext:
+  {{- toYaml .securityContext | nindent 4 }}
+  {{- end }}
+
+  serviceAccountName: {{ .Values.otelServiceAccount}}
+
+  {{ with .Values.otelCollector -}}
+  hostPort: {{ .hostPort }}
+  apmNamespaces: {{ .apmNamespaces }}
+  {{- end}}
+  {{ with .Values.otelCollector.config -}}
+  config:
+    oauth2client:
+      clientId: {{ .oauth2client.clientId }}
+      clientSecret: {{ .oauth2client.clientSecret }}
+      authEndpoint: {{ .oauth2client.authEndpoint }}
+      tenantId: {{ .oauth2client.tenantId }}
+      timeout: {{ .oauth2client.timeout }}
+      appDTenantId: {{ .oauth2client.appDTenantId }}
+    httpMetricsEndpoint: {{ .httpMetricsEndpoint }}
+    httpLogsEndpoint: {{ .httpLogsEndpoint }}
+    httpTracesEndpoint: {{ .httpTracesEndpoint }}
+    logLevel: {{ .logLevel }}
+    tls:
+      insecure: {{ .tls.insecure | quote }}
+      caFile: {{ .tls.caFile }}
+      certFile: {{ .tls.certFile }}
+      keyFile: {{ .tls.keyFile }}
+      minVersion: {{ .tls.minVersion | quote }}
+  {{- end}}
+  {{ if .Values.otelCollector.configOverride -}}
+  configOverride: |
+  {{ .Values.otelCollector.configOverride | nindent 6 }}
+  {{- end }}

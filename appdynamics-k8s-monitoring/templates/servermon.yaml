@@ -1,0 +1,17 @@
+{{ if .Values.install.defaultInfraCollectors -}}
+apiVersion: cluster.appdynamics.com/v1alpha1
+kind: Servermon
+metadata:
+  name: {{ printf "%s-%s" .Release.Name "appdynamics-servermon" | trunc 63 }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  {{ with .Values.servermonConfig -}}
+  name: {{ .name }}
+  gatherInterval: {{ .gatherInterval }}
+  logFilesMaxSizeMb: {{ .logFilesMaxSizeMb }}
+  logFilesNumBackups: {{ .logFilesNumBackups }}
+  logLevel: {{ .logLevel }}
+  skipProviderCheck: {{ .skipProviderCheck | quote }}
+  #TODO: Add whatever properties are finalized to be exposed by servermon
+  {{- end }}
+{{- end }}
