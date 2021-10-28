@@ -2,6 +2,7 @@ install:
   clustermon: true
   defaultInfraCollectors: true
 
+
 # RBAC config
 clustermonServiceAccount: appdynamics-clustermon
 infraAgentServiceAccount: appdynamics-infraagent
