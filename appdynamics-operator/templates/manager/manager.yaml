@@ -52,5 +52,7 @@ spec:
           periodSeconds: 10
         resources:
         {{- toYaml .Values.operatorPod.resources | nindent 10 }}
+      imagePullSecrets:
+      {{- toYaml .Values.operatorPod.imagePullSecrets | nindent 8}}
       serviceAccountName: {{ .Values.operatorServiceAccount }}
       terminationGracePeriodSeconds: 10

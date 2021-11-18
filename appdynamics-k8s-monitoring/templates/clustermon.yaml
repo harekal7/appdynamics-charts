@@ -8,9 +8,6 @@ spec:
   {{ with .Values.clustermonPod -}}
   image: {{ .image }}
   imagePullPolicy: {{ .imagePullPolicy }}
-  #  imageBaseUrl: {{ .imageBaseUrl }}
-  #  versionsUrl: {{ .versionsUrl }}
-  #  autoUpdate: {{ .autoUpdate | quote }}
   resources:
   {{- toYaml .resources | nindent 4 }}
   labels:
@@ -28,6 +25,7 @@ spec:
   {{- toYaml .securityContext | nindent 4 }}
   {{- end }}
   serviceAccountName: {{ .Values.clustermonServiceAccount}}
+  mTLSEnabled: {{ .Values.mTLSEnabled | quote }}
 
   {{ with .Values.clustermonConfig -}}
   clusterName: {{ .clusterName }}
@@ -61,8 +59,8 @@ spec:
   {{- toYaml .ingressControllers | nindent 4 }}
   {{- end }}
 
-  {{ with .Values.infraAgentConfig -}}
-  infraAgentConfig:
+  {{ with .Values.infraManagerConfig -}}
+  infraManagerConfig:
     logFilesMaxSizeMb: {{ .logFilesMaxSizeMb }}
     logFilesNumBackups: {{ .logFilesNumBackups }}
     printToStdout: {{ .printToStdout | quote }}

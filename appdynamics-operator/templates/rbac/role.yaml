@@ -62,7 +62,7 @@ rules:
 - apiGroups:
   - cluster.appdynamics.com
   resources:
-  - infraagents
+  - inframons
   verbs:
   - create
   - delete
@@ -74,13 +74,13 @@ rules:
 - apiGroups:
   - cluster.appdynamics.com
   resources:
-  - infraagents/finalizers
+  - inframons/finalizers
   verbs:
   - update
 - apiGroups:
   - cluster.appdynamics.com
   resources:
-  - infraagents/status
+  - inframons/status
   verbs:
   - get
   - patch

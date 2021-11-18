@@ -1,7 +1,7 @@
 apiVersion: v2
 name: appdynamics-k8s-monitoring
 
-description: Sophisticated helm chart to deploy clustermon as a deployment, otel collector, infra agent, containermon and servermon as a daemonset.
+description: Sophisticated helm chart to deploy clustermon as a deployment, otel collector, infra manager, containermon and servermon as a daemonset.
 home: https://appdynamics.com
 icon: https://raw.githubusercontent.com/CiscoDevNet/appdynamics-charts/master/logo.png
 

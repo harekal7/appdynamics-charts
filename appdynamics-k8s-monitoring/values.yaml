@@ -2,10 +2,12 @@ install:
   clustermon: true
   defaultInfraCollectors: true
 
+mTLSEnabled: true
+
 # RBAC config
 clustermonServiceAccount: appdynamics-clustermon
-infraAgentServiceAccount: appdynamics-infraagent
-otelServiceAccount: appdynamics-otel
+inframonServiceAccount: appdynamics-inframon
+otelCollectorServiceAccount: appdynamics-otel-collector
 
 #Clustermon Configs
 # TODO: what configs do we expose?
@@ -41,8 +43,8 @@ clustermonConfig:
 
   ingressControllers: {}
 
-#Infra Agent Configs
-infraAgentConfig:
+#Infra Manager Configs
+infraManagerConfig:
   logLevel: info
   logFilesMaxSizeMb: 10
   logFilesNumBackups: 4
@@ -110,29 +112,28 @@ containermonConfig:
 
 #Deployment specific configs
 clustermonPod:
-  image: appdynamics/clustermon:latest #Needs to be changed in prod
-  imagePullPolicy: Never #Needs to be changed in prod
+  image: 494198612820.dkr.ecr.us-west-2.amazonaws.com/clustermon/clustermon-levitate:latest
+  imagePullPolicy: Always
   resources: {}
   labels: {}
   annotations: {}
   nodeSelector: {}
-  imagePullSecrets: []
+  imagePullSecrets:
+  - name: aws-ecr-secret
   affinity: {}
   tolerations: []
   securityContext: {}
-  #  imageBaseUrl: appdynamics/clustermon
-  #  versionsUrl: https://raw.githubusercontent.com/sahilranadive/appdynamics-charts/master/clustermon/versions.json
-  #  autoUpdate: "true"
 
 #Daemonset specific configs
 inframonPod:
-  image: appdynamics/clustermon:latest #Needs to be changed in prod
-  imagePullPolicy: Never #Needs to be changed in prod
+  image: 494198612820.dkr.ecr.us-west-2.amazonaws.com/clustermon/clustermon-levitate:latest
+  imagePullPolicy: Always
   resources: {}
   labels: {}
   annotations: {}
   nodeSelector: {}
-  imagePullSecrets: []
+  imagePullSecrets:
+  - name: aws-ecr-secret
   affinity: {}
   tolerations: []
   securityContext: {}
@@ -141,7 +142,7 @@ inframonPod:
 #Daemonset specific configs
 otelCollectorPod:
   otelCollectorImage: dtr.corp.appdynamics.com/pavan.krishna/appdotelcol:0.36.0-21.10.0.49
-  imagePullPolicy: Never #Needs to be changed in prod
+  imagePullPolicy: Always
   resources: {}
   labels: {}
   annotations: {}
@@ -167,6 +168,7 @@ otelCollector:
     httpLogsEndpoint: https://alameda-lev.saas.appd-test.com/data/v1beta/logs
     httpTracesEndpoint: https://alameda-lev.saas.appd-test.com/data/v1beta/trace
     logLevel: "info"
+    # Only works when mTLSEnabled is set to true. These properties get ignored when mTLSEnabled is set to false.
     tls:
       insecure: "false"
       caFile: "/etc/otel/certs/ca/ca.pem"

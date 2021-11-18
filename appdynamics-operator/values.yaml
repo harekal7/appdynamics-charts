@@ -1,7 +1,9 @@
 operatorServiceAccount: appdynamics-operator
 operatorPod:
-  image: dtr.corp.appdynamics.com/clustermon/appdynamics-operator-levitate:latest #Needs to be changed in prod
-  imagePullPolicy: Never
+  image: 494198612820.dkr.ecr.us-west-2.amazonaws.com/clustermon/appdynamics-operator-levitate:latest
+  imagePullPolicy: Always
+  imagePullSecrets:
+  - name: aws-ecr-secret
   resources:
     limits:
       cpu: 200m

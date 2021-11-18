@@ -30,3 +30,5 @@ spec:
           image: {{ .Values.operatorPod.image }}
           imagePullPolicy: {{ .Values.operatorPod.imagePullPolicy }}
           command: ["/crd-validator"]
+      imagePullSecrets:
+      {{- toYaml .Values.operatorPod.imagePullSecrets | nindent 8}}

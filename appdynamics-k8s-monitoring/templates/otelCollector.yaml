@@ -23,7 +23,8 @@ spec:
   {{- toYaml .securityContext | nindent 4 }}
   {{- end }}
 
-  serviceAccountName: {{ .Values.otelServiceAccount}}
+  serviceAccountName: {{ .Values.otelCollectorServiceAccount}}
+  mTLSEnabled: {{ .Values.mTLSEnabled | quote }}
 
   {{ with .Values.otelCollector -}}
   hostPort: {{ .hostPort }}
